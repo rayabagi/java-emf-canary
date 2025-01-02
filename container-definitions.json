@@ -20,7 +20,7 @@
         "value": "tcp://127.0.0.1:25888"
       }
     ],
-    "image": "863722843142.dkr.ecr.us-west-2.amazonaws.com/emf-java-canary",
+    "image": "806213497162.dkr.ecr.us-west-2.amazonaws.com/emf-java-canary",
     "name": "emf-java-canary"
   },
   {

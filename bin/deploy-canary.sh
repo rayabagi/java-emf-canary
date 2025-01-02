@@ -22,3 +22,23 @@ imageid=$(docker images -q $IMAGE_NAME:latest)
 docker tag $imageid $ECR_REMOTE
 docker push $ECR_REMOTE
 check_exit
+
+echo 'UPDATING THE ECS SERVICE'
+aws ecs update-service \
+  --region $REGION \
+  --cluster $ECS_CLUSTER_NAME \
+  --service $ECS_SERVICE_NAME \
+  --force-new-deployment \
+  --task-definition $(aws ecs register-task-definition \
+                        --network-mode awsvpc \
+                        --requires-compatibilities FARGATE \
+                        --task-role arn:aws:iam::$ACCOUNT_ID:role/ECSCanaryTaskExecutionRole \
+                        --execution-role-arn "arn:aws:iam::$ACCOUNT_ID:role/ECSCanaryTaskExecutionRole" \
+                        --region $REGION \
+                        --memory 512 \
+                        --cpu '0.25 vcpu' \
+                        --family $ECS_TASK_FAMILY \
+                        --container-definitions "$(cat container-definitions.json)" \
+                    | jq --raw-output '.taskDefinition.taskDefinitionArn' | awk -F '/' '{ print $2 }')
+
+popd

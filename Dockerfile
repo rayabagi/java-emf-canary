@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-slim
+FROM openjdk:21-jdk-slim
 RUN mkdir /app
 COPY app/build/libs/*.jar /app/agent.jar
 ENV JAVA_OPTS=""

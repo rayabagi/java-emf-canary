@@ -38,4 +38,4 @@ aws ecs update-service \
                         --memory 512 \
                         --cpu '0.25 vcpu' \
                         --family $ECS_TASK_FAMILY \
-                        --container-definitions "$(cat container-definitions.json)"
+                        --container-definitions "$(cat container-definitions.json)
